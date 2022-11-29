@@ -25,12 +25,12 @@ export const Data = [
 export const Bookslist = [
   {
     title: "Purchased",
-    to: "/",
+    to: "/purchased",
     icon: <BiPurchaseTagAlt />,
   },
   {
     title: "Cart",
-    to: "/",
+    to: "/cart",
     icon: <AiOutlineShoppingCart />,
   },
 ];
