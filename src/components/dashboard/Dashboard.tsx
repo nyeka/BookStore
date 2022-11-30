@@ -107,8 +107,10 @@ const Dashboard = () => {
         <Box
           sx={{
             display: "flex",
-            justifyContent: "space-between",
             marginTop: "20px",
+            flexFlow: "row wrap",
+            justifyContent: "space-between",
+            gap: "24px",
           }}
         >
           {Books.map((item, index) => {
