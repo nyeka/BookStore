@@ -1,11 +1,16 @@
-import { Box, Typography, useTheme } from "@mui/material";
+import { Box, Typography, useTheme, Skeleton } from "@mui/material";
 import { tokens } from "../../theme";
 import Rating from "@mui/material/Rating";
-import { Books } from "./Bookdata";
+import useGetData from "../../Hooks/useGetData";
+import Template from "../Booktemplate/Template";
 
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const url = "Harry+Potter";
+  const api = `https://www.googleapis.com/books/v1/volumes?q=${url}&key=${process.env.REACT_APP_TOKEN}`;
+  const { data } = useGetData({ api });
+
   return (
     <Box
       sx={{
@@ -113,77 +118,19 @@ const Dashboard = () => {
             gap: "24px",
           }}
         >
-          {Books.map((item, index) => {
+          {data.map((item, index) => {
+            const { title, authors, imageLinks, averageRating } =
+              item.volumeInfo;
+            const { listPrice } = item.saleInfo;
             return (
-              <Box
+              <Template
                 key={index}
-                sx={{
-                  backgroundColor: colors.primary[400],
-                  padding: "14px",
-                  display: "flex",
-                  flexDirection: "column",
-                  borderRadius: "7px",
-                  boxShadow: "0px 5px 10px 0px rgba(0,0,0,0.75)",
-                }}
-              >
-                <img
-                  style={{
-                    width: "170px",
-                    height: "200px",
-                  }}
-                  src={item.img}
-                  alt="hary potah"
-                />
-                <Typography
-                  variant="h6"
-                  sx={{
-                    fontSize: "14px",
-                    fontWeight: "bold",
-                    marginTop: "10px",
-                  }}
-                >
-                  {item.title}
-                </Typography>
-                <Box
-                  sx={{
-                    display: "flex",
-                    gap: "4px",
-                  }}
-                >
-                  <span
-                    style={{
-                      fontSize: "12px",
-                    }}
-                  >
-                    By
-                  </span>
-                  <Typography
-                    variant="h6"
-                    sx={{
-                      color: colors.redAccent[400],
-                      fontSize: "13px",
-                    }}
-                  >
-                    {item.author}
-                  </Typography>
-                </Box>
-                <Rating
-                  name="size-medium"
-                  defaultValue={2}
-                  sx={{
-                    color: colors.redAccent[400],
-                    margin: "10px 0",
-                  }}
-                />
-                <Typography
-                  variant="h6"
-                  sx={{
-                    fontWeight: "bold",
-                  }}
-                >
-                  {item.price}
-                </Typography>
-              </Box>
+                title={title}
+                authors={authors}
+                imageLinks={imageLinks}
+                averageRating={averageRating}
+                listPrice={listPrice && listPrice.amount}
+              />
             );
           })}
         </Box>

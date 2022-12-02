@@ -1,13 +1,13 @@
 import { useContext } from "react";
-import { Box, IconButton, useTheme, InputBase } from "@mui/material";
+import { Box, IconButton, useTheme } from "@mui/material";
 import { ColorModeContext } from "../theme";
 import { LightModeOutlined } from "@mui/icons-material";
 import { DarkModeOutlined } from "@mui/icons-material";
-import SearchIcon from "@mui/icons-material/Search";
 import { tokens } from "../theme";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Badge, { BadgeProps } from "@mui/material/Badge";
 import { styled } from "@mui/material/styles";
+import MenuIcon from "@mui/icons-material/Menu";
 
 const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -20,8 +20,8 @@ const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
 
 const Topbar = () => {
   const theme = useTheme();
-  const ColorMode = useContext(ColorModeContext);
   const colors = tokens(theme.palette.mode);
+  const ColorMode = useContext(ColorModeContext);
 
   return (
     <Box
@@ -38,10 +38,7 @@ const Topbar = () => {
           backgroundColor: colors.primary[400],
         }}
       >
-        <InputBase sx={{ ml: 2, flex: 1 }} placeholder="Search" />
-        <IconButton type="button" sx={{ p: 1 }}>
-          <SearchIcon />
-        </IconButton>
+        <MenuIcon />
       </Box>
       <Box
         sx={{
