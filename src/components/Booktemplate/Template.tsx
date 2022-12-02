@@ -18,7 +18,6 @@ const Template = ({
 }: IProps) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  console.log(imageLinks);
   return (
     <Box
       sx={{
