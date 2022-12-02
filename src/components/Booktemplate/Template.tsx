@@ -25,7 +25,10 @@ const ListBooks = ({ data }: IProps) => {
     printType: string,
     pageCount: number,
     description: string,
-    subtitle: string
+    subtitle: string,
+    saleability: string,
+    downloadLink: string,
+    infoLink: string
   ) => {
     navigate(`/details/${title.replace(/ /g, "-")}`, {
       state: {
@@ -42,6 +45,9 @@ const ListBooks = ({ data }: IProps) => {
         pageCount,
         description,
         subtitle,
+        saleability,
+        downloadLink,
+        infoLink,
       },
     });
   };
@@ -67,9 +73,12 @@ const ListBooks = ({ data }: IProps) => {
           pageCount,
           description,
           subtitle,
+          infoLink,
         } = item.volumeInfo;
-        const { listPrice } = item.saleInfo;
+        const { listPrice, saleability } = item.saleInfo;
         const { webReaderLink } = item.accessInfo;
+        const { downloadLink } = item.accessInfo.pdf;
+        const { id } = item;
 
         return (
           <Box
@@ -87,7 +96,7 @@ const ListBooks = ({ data }: IProps) => {
             <Box
               onClick={() =>
                 handler(
-                  item.id,
+                  id,
                   title,
                   authors,
                   listPrice,
@@ -99,7 +108,10 @@ const ListBooks = ({ data }: IProps) => {
                   printType,
                   pageCount,
                   description,
-                  subtitle
+                  subtitle,
+                  saleability,
+                  downloadLink,
+                  infoLink
                 )
               }
               sx={{

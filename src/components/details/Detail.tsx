@@ -4,11 +4,14 @@ import { tokens } from "../../theme";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import Divider from "@mui/material/Divider";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { useDispatch } from "react-redux";
+import { sliceActions } from "../../store/create-slice";
 
 const Detail = () => {
   const location = useLocation();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const dispatch = useDispatch();
   let IDR = Intl.NumberFormat("en-US");
 
   const {
@@ -23,10 +26,22 @@ const Detail = () => {
     description,
     subtitle,
     averageRating,
+    saleability,
+    downloadLink,
+    infoLink,
+    id,
   } = location.state;
 
-  console.log(subtitle);
-
+  const addToCart = () => {
+    dispatch(
+      sliceActions.addTocart({
+        id,
+        name: title,
+        price: listPrice && listPrice.amount,
+        image: imageLinks,
+      })
+    );
+  };
   return (
     <Box
       sx={{
@@ -103,23 +118,65 @@ const Detail = () => {
               marginTop: "24px",
             }}
           >
-            <Box
-              sx={{
-                display: "flex",
-                backgroundColor: colors.blueAccent[400],
-                borderRadius: "4px",
-                width: "fit-content",
-                padding: "8px 16px",
-              }}
-            >
-              <Typography
+            {saleability === "FOR_SALE" ? (
+              <Box
                 sx={{
-                  color: "white !important",
+                  display: "flex",
+                  backgroundColor: colors.blueAccent[400],
+                  borderRadius: "4px",
+                  width: "fit-content",
+                  padding: "8px 16px",
                 }}
               >
-                IDR {listPrice && IDR.format(listPrice.amount)} Buy
-              </Typography>
-            </Box>
+                <Typography
+                  sx={{
+                    color: "white !important",
+                  }}
+                >
+                  IDR {listPrice && IDR.format(listPrice.amount)} Buy
+                </Typography>
+              </Box>
+            ) : saleability === "NOT_FOR_SALE" ? (
+              <Box
+                sx={{
+                  display: "flex",
+                  backgroundColor: colors.blueAccent[400],
+                  borderRadius: "4px",
+                  width: "fit-content",
+                  padding: "8px 16px",
+                }}
+              >
+                <a href={infoLink} target="_blank" rel="noreferrer">
+                  <Typography
+                    sx={{
+                      color: "white !important",
+                    }}
+                  >
+                    See Books
+                  </Typography>
+                </a>
+              </Box>
+            ) : (
+              <Box
+                sx={{
+                  display: "flex",
+                  backgroundColor: colors.blueAccent[400],
+                  borderRadius: "4px",
+                  width: "fit-content",
+                  padding: "8px 16px",
+                }}
+              >
+                <a href={downloadLink} target="_blank" rel="noreferrer">
+                  <Typography
+                    sx={{
+                      color: "white !important",
+                    }}
+                  >
+                    Download
+                  </Typography>
+                </a>
+              </Box>
+            )}
             <Box
               sx={{
                 display: "flex",
@@ -131,19 +188,23 @@ const Detail = () => {
             >
               <Typography>Preview</Typography>
             </Box>
-            <Box
-              sx={{
-                display: "flex",
-                borderRadius: "4px",
-                gap: "8px",
-                width: "fit-content",
-                padding: "8px 16px",
-                border: `1px solid ${colors.blueAccent[400]}`,
-              }}
-            >
-              <ShoppingCartIcon />
-              <Typography>Add To Cart</Typography>
-            </Box>
+            {saleability === "FOR_SALE" && (
+              <Box
+                sx={{
+                  display: "flex",
+                  borderRadius: "4px",
+                  gap: "8px",
+                  width: "fit-content",
+                  padding: "8px 16px",
+                  border: `1px solid ${colors.blueAccent[400]}`,
+                  cursor: "pointer",
+                }}
+                onClick={addToCart}
+              >
+                <ShoppingCartIcon />
+                <Typography>Add To Cart</Typography>
+              </Box>
+            )}
           </Box>
           <Box
             sx={{

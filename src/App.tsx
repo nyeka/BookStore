@@ -1,6 +1,8 @@
 import Main from "./layout/Main";
 import { createContext, useState } from "react";
 import Login from "./components/login/Login";
+import { Provider } from "react-redux";
+import store from "./store";
 
 interface IContext {
   Auth: boolean;
@@ -14,7 +16,7 @@ function App() {
 
   return (
     <AppContext.Provider value={{ Auth, setAuth }}>
-      {Auth ? <Main /> : <Login />}
+      <Provider store={store}>{Auth ? <Main /> : <Login />}</Provider>
     </AppContext.Provider>
   );
 }

@@ -24,9 +24,11 @@ const sliceStore = createSlice({
           quantity: 1,
           name: newItem.name,
           totalPrice: newItem.price,
+          image: newItem.image,
         });
       }
       state.totalQuantity++;
+      
     },
 
     setShowCart(state) {

@@ -8,6 +8,7 @@ import Dashboard from "../components/dashboard/Dashboard";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Discover from "../components/discover/discover";
 import Detail from "../components/details/Detail";
+import Cart from "../components/Cart/Cart";
 
 const Main = () => {
   const [mode, setMode] = useMode();
@@ -39,6 +40,7 @@ const Main = () => {
                     <Route path="/" element={<Dashboard />} />
                     <Route path="/discover" element={<Discover />} />
                     <Route path="/details/:title" element={<Detail />} />
+                    <Route path="/cart" element={<Cart />} />
                   </Routes>
                 </Box>
               </Router>

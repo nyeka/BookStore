@@ -8,6 +8,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Badge, { BadgeProps } from "@mui/material/Badge";
 import { styled } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
+import { useSelector } from "react-redux";
 
 const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -22,6 +23,7 @@ const Topbar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const ColorMode = useContext(ColorModeContext);
+  const item = useSelector((state: any) => state.cart.cartitem);
 
   return (
     <Box
@@ -53,7 +55,7 @@ const Topbar = () => {
           )}
         </IconButton>
         <IconButton aria-label="cart">
-          <StyledBadge badgeContent={4} color="secondary">
+          <StyledBadge badgeContent={item.length} color="secondary">
             <ShoppingCartIcon />
           </StyledBadge>
         </IconButton>
