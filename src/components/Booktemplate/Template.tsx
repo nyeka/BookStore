@@ -16,10 +16,16 @@ const ListBooks = ({ data }: IProps) => {
     id: string,
     title: string,
     authors: string,
-    listPrice: any,
+    listPrice: number,
     averageRating: number,
     imageLinks: any,
-    webReaderLink: string
+    webReaderLink: string,
+    publisher: string,
+    publishedDate: string,
+    printType: string,
+    pageCount: number,
+    description: string,
+    subtitle: string
   ) => {
     navigate(`/details/${title.replace(/ /g, "-")}`, {
       state: {
@@ -30,6 +36,12 @@ const ListBooks = ({ data }: IProps) => {
         averageRating,
         imageLinks,
         webReaderLink,
+        publisher,
+        publishedDate,
+        printType,
+        pageCount,
+        description,
+        subtitle,
       },
     });
   };
@@ -44,9 +56,21 @@ const ListBooks = ({ data }: IProps) => {
       }}
     >
       {data.map((item: any) => {
-        const { title, authors, imageLinks, averageRating } = item.volumeInfo;
+        const {
+          title,
+          authors,
+          imageLinks,
+          publishedDate,
+          averageRating,
+          publisher,
+          printType,
+          pageCount,
+          description,
+          subtitle,
+        } = item.volumeInfo;
         const { listPrice } = item.saleInfo;
         const { webReaderLink } = item.accessInfo;
+
         return (
           <Box
             key={item.id}
@@ -69,7 +93,13 @@ const ListBooks = ({ data }: IProps) => {
                   listPrice,
                   averageRating,
                   imageLinks,
-                  webReaderLink
+                  webReaderLink,
+                  publisher,
+                  publishedDate,
+                  printType,
+                  pageCount,
+                  description,
+                  subtitle
                 )
               }
               sx={{
@@ -84,7 +114,7 @@ const ListBooks = ({ data }: IProps) => {
                   height: "200px",
                 }}
                 src={imageLinks && imageLinks.smallThumbnail}
-                alt="hary potah"
+                alt={title}
               />
               <Typography
                 variant="h6"
@@ -121,12 +151,14 @@ const ListBooks = ({ data }: IProps) => {
               </Box>
             </Box>
             <Rating
-              name="size-medium"
+              name="read-only"
               defaultValue={averageRating}
+              readOnly
               sx={{
                 color: colors.redAccent[400],
                 margin: "10px 0",
               }}
+              precision={0.5}
             />
             {listPrice && listPrice.amount && (
               <Typography
