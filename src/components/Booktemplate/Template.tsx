@@ -1,94 +1,148 @@
 import { Box, Typography, Rating, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
+import { useNavigate } from "react-router-dom";
 
 interface IProps {
-  title: string;
-  authors: string;
-  listPrice: any;
-  imageLinks: any;
-  averageRating: number;
+  data: any[];
 }
 
-const Template = ({
-  title,
-  authors,
-  listPrice,
-  imageLinks,
-  averageRating,
-}: IProps) => {
+const ListBooks = ({ data }: IProps) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const navigate = useNavigate();
+  let IDR = Intl.NumberFormat("en-US");
+
+  const handler = (
+    id: string,
+    title: string,
+    authors: string,
+    listPrice: any,
+    averageRating: number,
+    imageLinks: any,
+    webReaderLink: string
+  ) => {
+    navigate(`/details/${title.replace(/ /g, "-")}`, {
+      state: {
+        id,
+        title,
+        authors,
+        listPrice,
+        averageRating,
+        imageLinks,
+        webReaderLink,
+      },
+    });
+  };
+
   return (
     <Box
       sx={{
-        backgroundColor: colors.primary[400],
-        padding: "14px",
         display: "flex",
-        flexDirection: "column",
-        width: "200px",
-        borderRadius: "7px",
-        boxShadow: "0px 5px 10px 0px rgba(0,0,0,0.75)",
+        flexFlow: "row wrap",
+        justifyContent: "space-between",
+        gap: "24px",
       }}
     >
-      <img
-        style={{
-          width: "170px",
-          height: "200px",
-        }}
-        src={imageLinks && imageLinks.smallThumbnail}
-        alt="hary potah"
-      />
-      <Typography
-        variant="h6"
-        sx={{
-          fontSize: "14px",
-          fontWeight: "bold",
-          marginTop: "10px",
-        }}
-      >
-        {title}
-      </Typography>
-      <Box
-        sx={{
-          display: "flex",
-          gap: "4px",
-        }}
-      >
-        <span
-          style={{
-            fontSize: "12px",
-          }}
-        >
-          By
-        </span>
-        <Typography
-          variant="h6"
-          sx={{
-            color: colors.redAccent[400],
-            fontSize: "13px",
-          }}
-        >
-          {authors}
-        </Typography>
-      </Box>
-      <Rating
-        name="size-medium"
-        defaultValue={averageRating}
-        sx={{
-          color: colors.redAccent[400],
-          margin: "10px 0",
-        }}
-      />
-      <Typography
-        variant="h6"
-        sx={{
-          fontWeight: "bold",
-        }}
-      >
-        {listPrice && listPrice.amount}
-      </Typography>
+      {data.map((item: any) => {
+        const { title, authors, imageLinks, averageRating } = item.volumeInfo;
+        const { listPrice } = item.saleInfo;
+        const { webReaderLink } = item.accessInfo;
+        return (
+          <Box
+            key={item.id}
+            sx={{
+              backgroundColor: colors.primary[400],
+              padding: "14px",
+              display: "flex",
+              flexDirection: "column",
+              width: "200px",
+              borderRadius: "7px",
+              boxShadow: "0px 5px 10px 0px rgba(0,0,0,0.75)",
+            }}
+          >
+            <Box
+              onClick={() =>
+                handler(
+                  item.id,
+                  title,
+                  authors,
+                  listPrice,
+                  averageRating,
+                  imageLinks,
+                  webReaderLink
+                )
+              }
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                cursor: "pointer",
+              }}
+            >
+              <img
+                style={{
+                  width: "170px",
+                  height: "200px",
+                }}
+                src={imageLinks && imageLinks.smallThumbnail}
+                alt="hary potah"
+              />
+              <Typography
+                variant="h6"
+                sx={{
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  marginTop: "10px",
+                }}
+              >
+                {title}
+              </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: "4px",
+                }}
+              >
+                <span
+                  style={{
+                    fontSize: "12px",
+                  }}
+                >
+                  By
+                </span>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    color: colors.redAccent[400],
+                    fontSize: "13px",
+                  }}
+                >
+                  {authors}
+                </Typography>
+              </Box>
+            </Box>
+            <Rating
+              name="size-medium"
+              defaultValue={averageRating}
+              sx={{
+                color: colors.redAccent[400],
+                margin: "10px 0",
+              }}
+            />
+            {listPrice && listPrice.amount && (
+              <Typography
+                variant="h6"
+                sx={{
+                  fontWeight: "bold",
+                }}
+              >
+                IDR {listPrice && IDR.format(listPrice.amount)}
+              </Typography>
+            )}
+          </Box>
+        );
+      })}
     </Box>
   );
 };
 
-export default Template;
+export default ListBooks;

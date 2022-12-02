@@ -11,7 +11,7 @@ import { useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import { tokens } from "../../theme";
 import Axios from "axios";
-import Template from "../Booktemplate/Template";
+import ListBooks from "../Booktemplate/Template";
 
 const Discover = () => {
   const [val, setVal] = useState("");
@@ -79,21 +79,7 @@ const Discover = () => {
             gap: "24px",
           }}
         >
-          {data.map((item, index) => {
-            const { title, authors, imageLinks, averageRating } =
-              item.volumeInfo;
-            const { listPrice } = item.saleInfo;
-            return (
-              <Template
-                key={index}
-                title={title}
-                authors={authors}
-                imageLinks={imageLinks}
-                averageRating={averageRating}
-                listPrice={listPrice && listPrice.amount}
-              />
-            );
-          })}
+          <ListBooks data={data} />
         </Box>
       )}
     </Container>

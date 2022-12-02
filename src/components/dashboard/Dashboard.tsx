@@ -2,17 +2,17 @@ import { Box, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 import Rating from "@mui/material/Rating";
 import useGetData from "../../Hooks/useGetData";
-import Template from "../Booktemplate/Template";
+import ListBooks from "../Booktemplate/Template";
 
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const url = "Harry+Potter";
-  const free = "free-ebooks";
   const api = `https://www.googleapis.com/books/v1/volumes?q=${url}&key=${process.env.REACT_APP_TOKEN}`;
-  const freeBooks = `https://www.googleapis.com/books/v1/volumes?q=react&filter=${free}&key=${process.env.REACT_APP_TOKEN}`;
+  const Best = `https://www.googleapis.com/books/v1/volumes?q=atomic-habit&key=${process.env.REACT_APP_TOKEN}`;
   const { data } = useGetData({ api });
-  const { data: freedata } = useGetData({ api: freeBooks });
+  const { data: freedata } = useGetData({ api: Best });
+
 
   return (
     <Box
@@ -121,21 +121,7 @@ const Dashboard = () => {
               gap: "24px",
             }}
           >
-            {data.map((item, index) => {
-              const { title, authors, imageLinks, averageRating } =
-                item.volumeInfo;
-              const { listPrice } = item.saleInfo;
-              return (
-                <Template
-                  key={index}
-                  title={title}
-                  authors={authors}
-                  imageLinks={imageLinks}
-                  averageRating={averageRating}
-                  listPrice={listPrice && listPrice.amount}
-                />
-              );
-            })}
+            <ListBooks data={freedata} />
           </Box>
         </Box>
       )}
@@ -155,21 +141,7 @@ const Dashboard = () => {
               gap: "24px",
             }}
           >
-            {freedata.map((item, index) => {
-              const { title, authors, imageLinks, averageRating } =
-                item.volumeInfo;
-              const { listPrice } = item.saleInfo;
-              return (
-                <Template
-                  key={index}
-                  title={title}
-                  authors={authors}
-                  imageLinks={imageLinks}
-                  averageRating={averageRating}
-                  listPrice={listPrice && listPrice.amount}
-                />
-              );
-            })}
+            <ListBooks data={data} />
           </Box>
         </Box>
       )}
