@@ -8,6 +8,9 @@ import { Bookslist, Data } from "./data";
 import { tokens } from "../theme";
 import img from "../components/images/tampan.png";
 import Divider from "@mui/material/Divider";
+import { AppContext } from "../App";
+import { useContext } from "react";
+import { auth } from "../firebase-config";
 
 interface IProps {
   title: string;
@@ -44,6 +47,13 @@ export default function Layout() {
   const [isColapsed, setIsColapsed] = useState<boolean>(false);
   const [selected, setSelected] = useState("Dashboard");
   const { collapseSidebar } = useProSidebar();
+  const { setAuth } = useContext(AppContext);
+  const name: any = auth.currentUser?.displayName;
+
+  const logout = () => {
+    auth.signOut();
+    setAuth(false);
+  };
 
   return (
     <Sidebar
@@ -94,7 +104,7 @@ export default function Layout() {
                 alt="profile-user"
                 width="100px"
                 height="100px"
-                src={img}
+                src={auth.currentUser?.photoURL || img}
                 style={{ cursor: "pointer", borderRadius: "50%" }}
               />
             </Box>
@@ -117,7 +127,7 @@ export default function Layout() {
                   fontSize: "16px",
                 }}
               >
-                Nyoman Tampan
+                {name}
               </Typography>
             </Box>
           </Box>
@@ -189,6 +199,7 @@ export default function Layout() {
           style={{
             backgroundColor: colors.primary[400],
           }}
+          onClick={logout}
         >
           Log out
         </MenuItem>

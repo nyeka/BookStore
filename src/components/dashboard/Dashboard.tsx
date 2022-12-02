@@ -13,7 +13,6 @@ const Dashboard = () => {
   const { data } = useGetData({ api });
   const { data: freedata } = useGetData({ api: Best });
 
-
   return (
     <Box
       sx={{
