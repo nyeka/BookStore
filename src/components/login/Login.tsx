@@ -19,6 +19,7 @@ const Login = () => {
     try {
       await signInWithPopup(auth, provider);
       setAuth(true);
+      localStorage.setItem("auth", "true");
     } catch (error) {
       console.log(error);
     }

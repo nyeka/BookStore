@@ -45,7 +45,6 @@ const Detail = () => {
     );
   };
 
-  console.log(downloadLink);
   return (
     <Box
       sx={{

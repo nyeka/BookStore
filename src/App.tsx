@@ -9,10 +9,18 @@ interface IContext {
   setAuth: (value: boolean) => void;
 }
 
+const CheckLocalStorage = () => {
+  const auth = localStorage.getItem("auth");
+  if (auth === "true") {
+    return true;
+  }
+  return false;
+};
+
 export const AppContext = createContext({} as IContext);
 
 function App() {
-  const [Auth, setAuth] = useState(false);
+  const [Auth, setAuth] = useState(CheckLocalStorage());
 
   return (
     <AppContext.Provider value={{ Auth, setAuth }}>

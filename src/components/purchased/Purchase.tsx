@@ -11,7 +11,6 @@ const Purchase = () => {
   const colors = tokens(theme.palette.mode);
   const [data, setData] = useState<any[]>([]);
   const [loading, setloading] = useState<boolean>(false);
-
   let IDR = Intl.NumberFormat("en-US");
 
   useEffect(() => {

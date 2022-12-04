@@ -55,6 +55,7 @@ export default function Layout() {
   const logout = () => {
     auth.signOut();
     navigate("/");
+    localStorage.clear();
     setAuth(false);
   };
 
