@@ -11,6 +11,7 @@ import Divider from "@mui/material/Divider";
 import { AppContext } from "../App";
 import { useContext } from "react";
 import { auth } from "../firebase-config";
+import { useNavigate } from "react-router-dom";
 
 interface IProps {
   title: string;
@@ -49,9 +50,11 @@ export default function Layout() {
   const { collapseSidebar } = useProSidebar();
   const { setAuth } = useContext(AppContext);
   const name: any = auth.currentUser?.displayName;
+  const navigate = useNavigate();
 
   const logout = () => {
     auth.signOut();
+    navigate("/");
     setAuth(false);
   };
 

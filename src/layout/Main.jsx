@@ -9,6 +9,9 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Discover from "../components/discover/discover";
 import Detail from "../components/details/Detail";
 import Cart from "../components/Cart/Cart";
+import Checkout from "../components/checkout/Checkout";
+import Purchase from "../components/purchased/Purchase";
+import Categories from "../components/categories/Categories";
 
 const Main = () => {
   const [mode, setMode] = useMode();
@@ -41,6 +44,9 @@ const Main = () => {
                     <Route path="/discover" element={<Discover />} />
                     <Route path="/details/:title" element={<Detail />} />
                     <Route path="/cart" element={<Cart />} />
+                    <Route path="/checkout/:id" element={<Checkout />} />
+                    <Route path="/purchased" element={<Purchase />} />
+                    <Route path="/category" element={<Categories />} />
                   </Routes>
                 </Box>
               </Router>

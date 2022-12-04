@@ -7,20 +7,23 @@ interface IGetData {
 
 const useGetData = ({ api }: IGetData) => {
   const [data, setData] = useState<any[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true);
         const response = await Axios.get(api);
         setData(response.data.items);
       } catch (error) {
         console.log(error);
       }
+      setLoading(false);
     };
     fetchData();
   }, [api]);
 
-  return { data };
+  return { data, loading };
 };
 
 export default useGetData;

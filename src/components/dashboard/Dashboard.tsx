@@ -3,6 +3,8 @@ import { tokens } from "../../theme";
 import Rating from "@mui/material/Rating";
 import useGetData from "../../Hooks/useGetData";
 import ListBooks from "../Booktemplate/Template";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const Dashboard = () => {
   const theme = useTheme();
@@ -10,7 +12,7 @@ const Dashboard = () => {
   const url = "Harry+Potter";
   const api = `https://www.googleapis.com/books/v1/volumes?q=${url}&key=${process.env.REACT_APP_TOKEN}`;
   const Best = `https://www.googleapis.com/books/v1/volumes?q=atomic-habit&key=${process.env.REACT_APP_TOKEN}`;
-  const { data } = useGetData({ api });
+  const { data, loading } = useGetData({ api });
   const { data: freedata } = useGetData({ api: Best });
 
   return (
@@ -22,6 +24,12 @@ const Dashboard = () => {
         padding: "20px",
       }}
     >
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={loading}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <Typography variant="h4">We recomend</Typography>
       <Box
         sx={{

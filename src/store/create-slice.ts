@@ -25,10 +25,10 @@ const sliceStore = createSlice({
           name: newItem.name,
           totalPrice: newItem.price,
           image: newItem.image,
+          author: newItem.author,
         });
       }
       state.totalQuantity++;
-      
     },
 
     setShowCart(state) {
@@ -46,6 +46,11 @@ const sliceStore = createSlice({
         existingItem.quantity--;
         existingItem.totalPrice -= existingItem.price;
       }
+    },
+
+    clearCart(state) {
+      state.cartitem = [];
+      state.totalQuantity = 0;
     },
   },
 });

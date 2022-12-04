@@ -6,6 +6,7 @@ import Divider from "@mui/material/Divider";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useDispatch } from "react-redux";
 import { sliceActions } from "../../store/create-slice";
+import HouseIcon from "@mui/icons-material/House";
 
 const Detail = () => {
   const location = useLocation();
@@ -39,9 +40,12 @@ const Detail = () => {
         name: title,
         price: listPrice && listPrice.amount,
         image: imageLinks,
+        author: authors[0],
       })
     );
   };
+
+  console.log(downloadLink);
   return (
     <Box
       sx={{
@@ -110,6 +114,17 @@ const Detail = () => {
               <Typography>Pages</Typography>
             </Box>
             <Divider orientation="vertical" flexItem />
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: "4px",
+              }}
+            >
+              <HouseIcon />
+              <Typography>Eligble</Typography>
+            </Box>
           </Box>
           <Box
             sx={{
@@ -164,6 +179,7 @@ const Detail = () => {
                   borderRadius: "4px",
                   width: "fit-content",
                   padding: "8px 16px",
+                  cursor: "pointer",
                 }}
               >
                 <a href={downloadLink} target="_blank" rel="noreferrer">
